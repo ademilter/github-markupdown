@@ -41,7 +41,7 @@ chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
     '</div>';
 
   $('.previewable-comment-form .write-content').prepend(dataa);
-  var txtComment = $("#new_commit_comment_field")[0] || $("#new_comment_field")[0];
+  var txtComment = $("#new_commit_comment_field")[0] || $("#new_comment_field")[0]  || $("#issue_body")[0];
 
   $(".markupdown").on('click', '.btn', function(e) {
 
