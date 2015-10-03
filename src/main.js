@@ -49,21 +49,15 @@ $(".markupdown").on('click', '.btn', function(e) {
         break;
       case 'bold':
         
-        var start_patt = new RegExp(/(^\*\*)/gm);
-        selection = start_patt.test(selection) ? selection.replace(start_patt,""): selection.replace(/(^)/gm,"**");
-
-        var end_patt = new RegExp(/(\*\*$)/gm);
-        selection = end_patt.test(selection) ? selection.replace(end_patt,""): selection.replace(/($)/gm,"**");
-
+        var patt = new RegExp(/(^\*\*)|(\*\*$)/gm);
+        selection = patt.test(selection) ? selection.replace(patt,""): selection.replace(/(^)|($)/gm,"**");
+        
         break;
       case 'italic':
         
-        var start_patt = new RegExp(/(^\*)/gm);
-        selection = start_patt.test(selection) ? selection.replace(start_patt,""): selection.replace(/(^)/gm,"*");
-
-        var end_patt = new RegExp(/(\*$)/gm);
-        selection = end_patt.test(selection) ? selection.replace(end_patt,""): selection.replace(/($)/gm,"*");
-
+        var patt = new RegExp(/(^\*)|(\*$)/gm);
+        selection = patt.test(selection) ? selection.replace(patt,""): selection.replace(/(^)|($)/gm,"*");
+        
         break;
       case 'ins':
         tagBegin = "~~";
