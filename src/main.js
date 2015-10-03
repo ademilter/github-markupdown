@@ -61,7 +61,8 @@ $(".markupdown").on('click', '.btn', function(e) {
         tagEnd = "\n";
         break;
       case 'ul':
-        selection = selection.replace(/(- )/gm,"").replace(/(^)/gm,"- ");
+        var patt = new RegExp(/(^- )/gm);
+        selection = patt.test(selection) ? selection.replace(patt,""): selection.replace(/(^)/gm,"- ");
         break;
       case 'ol':
         tagBegin = "\n1. ";
