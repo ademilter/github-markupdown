@@ -21,13 +21,12 @@ var dataa = '<div class="markupdown">' +
   '</div>';
 
 $('.previewable-comment-form .write-content').prepend(dataa);
+var txtComment = $("#new_commit_comment_field")[0] || $("#new_comment_field")[0];
 
-
-$(document).on('click', '.markupdown button', function(e) {
-
-  var buttonName = $(e.target).data('set');
-  var txtComment = $("textarea[name^='comment']")[0];
-
+$(".markupdown").on('click', '.btn', function(e) {
+  
+  var buttonName = $(this).data('set');
+  
   if (typeof(txtComment.selectionStart) != "undefined") {
 
     var tagBegin = "";
