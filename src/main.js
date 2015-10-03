@@ -1,3 +1,14 @@
+chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
+    //sayfa yüklendiğinde tab tetikleniyor. 
+$.fn.selectRange = function(start, end) {
+    // https://gist.github.com/beiyuu/2029907 adresinden alınmıştır.
+    var e = document.getElementById($(this).attr('id')); // I don't know why... but $(this) don't want to work today :-/
+    if (!e) return;
+    else if (e.setSelectionRange) { e.focus(); e.setSelectionRange(start, end); } /* WebKit */ 
+    else if (e.createTextRange) { var range = e.createTextRange(); range.collapse(true); range.moveEnd('character', end); range.moveStart('character', start); range.select(); } /* IE */
+    else if (e.selectionStart) { e.selectionStart = start; e.selectionEnd = end; }
+};
+
 var dataa = '<div class="markupdown">' +
   '<div class="btn-group">' +
   '<button class="btn btn-sm" data-set="link" type="button"><span class="octicon octicon-link"></span></button>' +
@@ -18,18 +29,19 @@ var dataa = '<div class="markupdown">' +
   '</div>';
 
 $('.previewable-comment-form .write-content').prepend(dataa);
+var txtComment = $("#new_commit_comment_field")[0] || $("#new_comment_field")[0];
 
-
-$(document).on('click', '.markupdown button', function(e) {
-
-  var buttonName = $(e.target).data('set');
-  var txtComment = document.getElementById('new_comment_field');
+$(".markupdown").on('click', '.btn', function(e) {
+  
+  var buttonName = $(this).data('set');
 
   if (typeof(txtComment.selectionStart) != "undefined") {
 
     var tagBegin = "";
     var tagEnd = "";
-
+    
+    var selection = txtComment.value.substr(txtComment.selectionStart, txtComment.selectionEnd - txtComment.selectionStart);
+  
     switch (buttonName) {
       case 'link':
         var testt = prompt("Please enter your link", "");
@@ -37,12 +49,16 @@ $(document).on('click', '.markupdown button', function(e) {
         tagEnd = "](" + testt + ")";
         break;
       case 'bold':
-        tagBegin = "**";
-        tagEnd = tagBegin;
+        
+        var patt = new RegExp(/(^\*\*)|(\*\*$)/gm);
+        selection = patt.test(selection) ? selection.replace(patt,""): selection.replace(/(^)|($)/gm,"**");
+        
         break;
       case 'italic':
-        tagBegin = "*";
-        tagEnd = tagBegin;
+        
+        var patt = new RegExp(/(^\*)|(\*$)/gm);
+        selection = patt.test(selection) ? selection.replace(patt,""): selection.replace(/(^)|($)/gm,"*");
+        
         break;
       case 'ins':
         tagBegin = "~~";
@@ -57,7 +73,8 @@ $(document).on('click', '.markupdown button', function(e) {
         tagEnd = "\n";
         break;
       case 'ul':
-        tagBegin = "\n- ";
+        var patt = new RegExp(/(^- )/gm);
+        selection = patt.test(selection) ? selection.replace(patt,""): selection.replace(/(^)/gm,"- ");
         break;
       case 'ol':
         tagBegin = "\n1. ";
@@ -71,9 +88,15 @@ $(document).on('click', '.markupdown button', function(e) {
     }
 
     var begin = txtComment.value.substr(0, txtComment.selectionStart);
-    var selection = txtComment.value.substr(txtComment.selectionStart, txtComment.selectionEnd - txtComment.selectionStart);
     var end = txtComment.value.substr(txtComment.selectionEnd);
+  
+    var range_start = txtComment.selectionStart; 
+    var range_end = range_start + (tagBegin + selection + tagEnd).length ;
 
     txtComment.value = begin + tagBegin + selection + tagEnd + end;
+
+    $(txtComment).selectRange(range_start, range_end); // alanı tekrar seçili hale getirmek için.
+
   }
+});
 });
