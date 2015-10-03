@@ -1,3 +1,6 @@
+chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
+    //sayfa yüklendiğinde tab tetikleniyor. 
+
 var dataa = '<div class="markupdown">' +
   '<div class="btn-group">' +
   '<button class="btn btn-sm" data-set="link" type="button"><span class="octicon octicon-link"></span></button>' +
@@ -23,8 +26,8 @@ $('.previewable-comment-form .write-content').prepend(dataa);
 $(document).on('click', '.markupdown button', function(e) {
 
   var buttonName = $(e.target).data('set');
-  var txtComment = document.getElementById('new_comment_field');
-
+  var txtComment = document.getElementById('new_commit_comment_field');
+console.log(txtComment);
   if (typeof(txtComment.selectionStart) != "undefined") {
 
     var tagBegin = "";
@@ -76,4 +79,5 @@ $(document).on('click', '.markupdown button', function(e) {
 
     txtComment.value = begin + tagBegin + selection + tagEnd + end;
   }
+});
 });
