@@ -1,5 +1,12 @@
 chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
-
+    //sayfa yüklendiğinde tab tetikleniyor. 
+$.fn.selectRange = function(start, end) {
+    var e = document.getElementById($(this).attr('id')); // I don't know why... but $(this) don't want to work today :-/
+    if (!e) return;
+    else if (e.setSelectionRange) { e.focus(); e.setSelectionRange(start, end); } /* WebKit */ 
+    else if (e.createTextRange) { var range = e.createTextRange(); range.collapse(true); range.moveEnd('character', end); range.moveStart('character', start); range.select(); } /* IE */
+    else if (e.selectionStart) { e.selectionStart = start; e.selectionEnd = end; }
+};
 
 var dataa = '<div class="markupdown">' +
   '<div class="btn-group">' +
@@ -26,7 +33,7 @@ var txtComment = $("#new_commit_comment_field")[0] || $("#new_comment_field")[0]
 $(".markupdown").on('click', '.btn', function(e) {
   
   var buttonName = $(this).data('set');
-  
+
   if (typeof(txtComment.selectionStart) != "undefined") {
 
     var tagBegin = "";
@@ -41,12 +48,27 @@ $(".markupdown").on('click', '.btn', function(e) {
         tagEnd = "](" + testt + ")";
         break;
       case 'bold':
-        tagBegin = "**";
-        tagEnd = tagBegin;
+        
+        var patt = new RegExp(/(\*\*)/gm);
+        if(patt.test(selection)){
+          tagBegin = "";
+          selection = selection.replace(patt,"");
+        }
+        else
+          tagBegin = "**";
+
+        tagEnd  = tagBegin;
         break;
       case 'italic':
-        tagBegin = "*";
-        tagEnd = tagBegin;
+        var patt = new RegExp(/(\*)/gm);
+        if(patt.test(selection)){
+          tagBegin = "";
+          selection = selection.replace(patt,"");
+        }
+        else
+          tagBegin = "*";
+
+        tagEnd  = tagBegin;
         break;
       case 'ins':
         tagBegin = "~~";
@@ -77,9 +99,14 @@ $(".markupdown").on('click', '.btn', function(e) {
 
     var begin = txtComment.value.substr(0, txtComment.selectionStart);
     var end = txtComment.value.substr(txtComment.selectionEnd);
-
+  
+    var range_start = txtComment.selectionStart; 
+    var range_end = range_start + (tagBegin + selection + tagEnd).length ;
 
     txtComment.value = begin + tagBegin + selection + tagEnd + end;
+
+    $(txtComment).selectRange(range_start, range_end); // alanı tekrar seçili hale getirmek için.
+
   }
 });
 });
