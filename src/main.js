@@ -1,5 +1,5 @@
 chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
-    //sayfa yüklendiğinde tab tetikleniyor. 
+
 
 var dataa = '<div class="markupdown">' +
   '<div class="btn-group">' +
