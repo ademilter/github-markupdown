@@ -1,4 +1,6 @@
-
+/*
+Daha iyi bir alternatif bir çözüm olabilir konu hakkında çok donanımlı değilim.
+*/
 
 chrome.tabs.onUpdated.addListener( function (tabId, changeInfo, tab) {
 	//her sayfa açıldığında tetiklenecek
