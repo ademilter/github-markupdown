@@ -1,6 +1,7 @@
 chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
     //sayfa yüklendiğinde tab tetikleniyor. 
 $.fn.selectRange = function(start, end) {
+    // https://gist.github.com/beiyuu/2029907 adresinden alınmıştır.
     var e = document.getElementById($(this).attr('id')); // I don't know why... but $(this) don't want to work today :-/
     if (!e) return;
     else if (e.setSelectionRange) { e.focus(); e.setSelectionRange(start, end); } /* WebKit */ 
