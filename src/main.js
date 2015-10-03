@@ -1,5 +1,5 @@
 chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
-
+    //sayfa yüklendiğinde tab tetikleniyor. 
 
 var dataa = '<div class="markupdown">' +
   '<div class="btn-group">' +
@@ -26,13 +26,15 @@ $('.previewable-comment-form .write-content').prepend(dataa);
 $(document).on('click', '.markupdown button', function(e) {
 
   var buttonName = $(e.target).data('set');
-  var txtComment = document.getElementById('new_commit_comment_field');
-console.log(txtComment);
+  var txtComment = $("textarea[name^='comment']")[0];
+
   if (typeof(txtComment.selectionStart) != "undefined") {
 
     var tagBegin = "";
     var tagEnd = "";
-
+    
+    var selection = txtComment.value.substr(txtComment.selectionStart, txtComment.selectionEnd - txtComment.selectionStart);
+  
     switch (buttonName) {
       case 'link':
         var testt = prompt("Please enter your link", "");
@@ -60,7 +62,7 @@ console.log(txtComment);
         tagEnd = "\n";
         break;
       case 'ul':
-        tagBegin = "\n- ";
+        selection = selection.replace(/(- )/gm,"").replace(/(^)/gm,"- ");
         break;
       case 'ol':
         tagBegin = "\n1. ";
@@ -74,8 +76,8 @@ console.log(txtComment);
     }
 
     var begin = txtComment.value.substr(0, txtComment.selectionStart);
-    var selection = txtComment.value.substr(txtComment.selectionStart, txtComment.selectionEnd - txtComment.selectionStart);
     var end = txtComment.value.substr(txtComment.selectionEnd);
+
 
     txtComment.value = begin + tagBegin + selection + tagEnd + end;
   }
