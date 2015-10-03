@@ -25,7 +25,7 @@ var txtComment = $("#new_commit_comment_field")[0] || $("#new_comment_field")[0]
 
 $(".markupdown").on('click', '.btn', function(e) {
   
-  var buttonName = $(this).data('set'); // e.target span elemnet tıklayınca o elemnti getiriyor. data verisi okunamıyordu.
+  var buttonName = $(this).data('set');
   
   if (typeof(txtComment.selectionStart) != "undefined") {
 
