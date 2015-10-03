@@ -108,7 +108,7 @@ MarkupDown.prototype.applyReplacement = function (replacementText) {
 };
 
 function init() {
-  $("#new_commit_comment_field, #new_comment_field, [id^=new_inline_comment], #pull_request_body")
+  $("#new_commit_comment_field, #new_comment_field, [id^=new_inline_comment], #pull_request_body, #issue_body")
     .filter(":not(.markupdown-applied)")
     .each(function () {
       var markupDown = new MarkupDown(this);
