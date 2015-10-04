@@ -1,3 +1,17 @@
+var SETTINGS = {
+  container: '.write-content',
+  textareas: [
+    // If you need to add any other elements in time, just add to this array.
+    "#new_commit_comment_field",
+    "#new_comment_field",
+    "[id^=new_inline_comment_]",
+    "#pull_request_body",
+    "#issue_body"
+  ],
+  // Checks DOM in milliseconds if the elements appeared above.
+  DOMCheckInterval: 500
+};
+
 function MarkupDown(textarea) {
   var _this = this;
   this.textarea = textarea;
@@ -108,16 +122,16 @@ MarkupDown.prototype.applyReplacement = function (replacementText) {
 };
 
 function init() {
-  $("#new_commit_comment_field, #new_comment_field, [id^=new_inline_comment], #pull_request_body, #issue_body")
+  $(SETTINGS.textareas.join())
     .filter(":not(.markupdown-applied)")
     .each(function () {
       var markupDown = new MarkupDown(this);
-      $(this).closest('.write-content').prepend(markupDown.$el);
+      $(this).closest(SETTINGS.container).prepend(markupDown.$el.hide().fadeIn());
       $(this).addClass('markupdown-applied');
   });
 }
 
 $(document).on("ready", function () {
   init();
-  setInterval(init, 500); // check for new elements
+  setInterval(init, SETTINGS.DOMCheckInterval); // check for new elements
 });
