@@ -1,8 +1,8 @@
 {
-  "name": "Github MarkupDown",
+  "name": "GitHub MarkupDown",
   "version": "0.0.2",
   "manifest_version": 2,
-  "description": "Rich comment editor for Github",
+  "description": "Rich comment editor for GitHub",
   "homepage_url": "https://github.com/ademilter/github-markupdown",
   "icons": {
     "16": "icons/icon16.png",
