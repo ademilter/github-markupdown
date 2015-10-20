@@ -113,7 +113,7 @@ MarkupDown.prototype.ol = function (selectedText, allText) {
 
 MarkupDown.prototype.check = function (selectedText) {
   return this.multilineReplacer(selectedText, function (listItem) {
-    return '- [] ' + listItem;
+    return '- [ ] ' + listItem;
   });
 };
 
